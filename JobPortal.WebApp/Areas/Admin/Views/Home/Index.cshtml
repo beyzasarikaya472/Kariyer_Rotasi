@@ -1,0 +1,68 @@
+﻿<!-- İçerik -->
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <!-- İşlemler -->
+        <div @*class="col-md-6 col-lg-4 order-2 mb-4"*@>
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h3>GENEL BAKIŞ</h3>
+                </div>
+
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        <li class="d-flex mb-4 pb-1" onclick="window.location.href = '@Url.Action("ListEmployer", "Home")'">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <img src="~/assets/admin/assets/img/icons/unicons/employer-icon.png" alt="User" />
+                            </div>
+                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                    <h5 class="mb-0">Tüm İşverenler</h5>
+                                </div>
+                                <div class="user-progress d-flex align-items-center gap-1">
+                                    <h6 class="mb-0">@ViewBag.CountEmployer</h6>
+                                    <span class="text-muted">Hesaplar</span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr />
+
+                        <li class="d-flex mb-4 pb-1" onclick="window.location.href = '@Url.Action("ListUser", "Home")'">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <img src="~/assets/admin/assets/img/icons/unicons/user-icon.png" alt="User" style="object-fit:cover" class="rounded" />
+                            </div>
+                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                    <h5 class="mb-0">Tüm Kullanıcılar</h5>
+                                </div>
+                                <div class="user-progress d-flex align-items-center gap-1">
+                                    <h6 class="mb-0">@ViewBag.CountUser</h6>
+                                    <span class="text-muted">Hesaplar</span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <hr />
+
+                        <li class="d-flex mb-4 pb-1">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <img src="~/assets/admin/assets/img/icons/unicons/job-icon.png" alt="User" style="object-fit:cover" class="rounded" />
+                            </div>
+                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                    <h5 class="mb-0">Mevcut İşler</h5>
+                                </div>
+                                <div class="user-progress d-flex align-items-center gap-1">
+                                    <h6 class="mb-0">@ViewBag.CountJob</h6>
+                                    <span class="text-muted">İşler</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--/ İşlemler -->
+    </div>
+</div>
+<!-- / İçerik -->

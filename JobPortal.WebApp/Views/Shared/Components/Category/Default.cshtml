@@ -1,0 +1,53 @@
+﻿@model List<JobPortal.Data.Entities.Category>
+
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="single-feature">
+                @if (category.Name == "En Popüler İşler")
+                {
+                    <h4><strong><span class="lnr lnr-users"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Yeni Yayınlanan İşler")
+                {
+                    <h4><strong><span class="lnr lnr-book"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Yüksek Maaşlı İşler")
+                {
+                    <h4><strong><span class="lnr lnr-tag"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Uzaktan Çalışma İmkanları")
+                {
+                    <h4><strong><span class="lnr lnr-map-marker"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Staj İmkanları")
+                {
+                    <h4><strong><span class="lnr lnr-tag"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Full Stack Geliştirme")
+                {
+                    <h4><strong><span class="lnr lnr-map-marker"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Freelance Projeler")
+                {
+                    <h4><strong><span class="lnr lnr-book"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Veri Bilimi ve Analitiği")
+                {
+                    <h4><strong><span class="lnr lnr-users"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "Yapay Zeka ve Makine Öğrenimi")
+                {
+                    <h4><strong><span class="lnr lnr-map-marker"></span> @category.Name</strong></h4>
+                }
+                else if (category.Name == "DevOps ve Sistem Mühendisliği")
+                {
+                    <h4><strong><span class="lnr lnr-tag"></span> @category.Name</strong></h4>
+                }
+                <hr />
+                <p style="margin: 10px">@category.Description</p>
+            </div>
+        </div>
+    }
+</div>

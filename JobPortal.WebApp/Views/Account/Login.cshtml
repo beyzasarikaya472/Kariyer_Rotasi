@@ -1,0 +1,77 @@
+﻿@model JobPortal.Data.ViewModel.LoginViewModel
+
+@{
+    Layout = "_LayoutAccount";
+}
+
+<!-- /Logo -->
+<h4 class="mb-2">Kariyer Rotasına Hoşgeldin! 👋</h4>
+<p class="mb-4">Hesabında oturum aç ve kariyer yolculuğuna başla</p>
+
+<form asp-action="Login" asp-controller="Account" id="account" class="mb-3" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="Email"
+               type="text"
+               class="form-control"
+               autocomplete="username"
+               aria-required="true"
+               placeholder="Emailinizi girin"
+               autofocus />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-password-toggle">
+        @*<div class="d-flex justify-content-between">
+            <label asp-for="Password" class="form-label"></label>
+            <a href="#">
+                <small>Forgot Password?</small>
+            </a>
+        </div>*@
+        <label asp-for="Password" class="form-label"></label><span class="text-danger">*</span>
+        <div class="input-group input-group-merge">
+            <input asp-for="Password"
+                   type="password"
+                   class="form-control"
+                   autocomplete="new-password"
+                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                   aria-required="true" />
+            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+        </div>
+    </div>
+    @*<div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="remember-me" />
+            <label class="form-check-label" for="remember-me"> Remember Me </label>
+        </div>
+    </div>*@
+    <div class="mb-3">
+        <button id="login-submit" class="btn btn-primary d-grid w-100" type="submit">Giriş Yap</button>
+    </div>
+</form>
+
+<p class="text-center">
+    <span>Platformumuzda yeni misiniz?</span>
+    <a href="/register">
+        <span>Hesap oluşturun</span>
+    </a>
+</p>
+
+<a href="/employer/login"
+   class="btn btn-primary d-grid w-100" style="position:center">İşveren için oturum açın</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    @if (ViewBag.PasswordChanged != null && (bool)ViewBag.PasswordChanged)
+    {
+        <script>
+            Swal.fire({
+                title: 'Şifre Değiştirildi',
+                text: 'Şifreniz başarıyla değiştirildi. Lütfen tekrar oturum açın.',
+                icon: 'success',
+                confirmButtonText: 'Tamam'
+            });
+        </script>
+    }
+}

@@ -1,0 +1,234 @@
+﻿@model IEnumerable<JobPortal.Data.Entities.Job>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .pagination {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    
+    .pagination li {
+        margin: 0 5px;
+    }
+
+    .pagination li a {
+        display: inline-block;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        color: #333;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .pagination li.active a {
+        background-color: #333;
+        color: #fff;
+    }
+</style>
+
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    @if (ViewBag.Time == null && ViewBag.Province == null && ViewBag.Skill == null && ViewBag.Employer == null)
+                    {
+                        <text>@ViewBag.jobCount İş İlanı</text>
+                    }
+                    else
+                    {
+                        <text>
+                            @((ViewBag.Time != null ? $"{ViewBag.Time.Name} işleri" : null) ??
+                                (ViewBag.Province != null ? $"{ViewBag.Province.Name} işleri" :
+                                (ViewBag.Skill != null ? $"{ViewBag.Skill.Name} için işler" :
+                                (ViewBag.Employer != null ? $"{ViewBag.Employer.FullName} İşleri" : null))))
+                        </text>
+                    }
+                </h1>
+                <p class="text-white link-nav"><a href="/">Ana Sayfa </a>  <span class="lnr lnr-arrow-right"></span>  <a href="/job"> Tüm İşler</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+<!-- Başlangıç İlan Alanı -->
+<section class="post-area section-gap">
+    <div class="container">
+        <div class="row justify-content-center d-flex">
+            <div class="col-lg-8 post-list">
+
+                <!-- Zaman görünüm bileşeni -->
+                <vc:time></vc:time>
+
+                <!-- İş listesi -->
+                @if (Model.Any())
+                {
+                    @foreach (var job in Model)
+                    {
+                        <div class="single-post d-flex flex-row">
+                            <!-- İş yeteneği -->
+                            <div class="thumb" style="align-items:center">
+                                <a href="/company/@job.AppUser.Slug"><img href="/job/@job.Slug" style="border-radius:10px" width="200" height="100" src="https://localhost:7211/images/employers/@job.AppUser.UrlAvatar" alt="işveren görüntüsü"></a>
+                                <ul class="tags" style="justify-content:center; display: grid; border-radius:10px">
+                                    <!-- İl -->
+                                    <li style="border-radius:10px">
+                                        <strong><a href="/job?slug=@job.Province.Slug" style="color: black"><span class="lnr lnr-map-marker"></span> @job.Province.Name</a></strong>
+                                    </li>
+                                </ul>
+                                <hr />
+                                <ul class="tags" style="justify-content:center; text-align: center; border-radius:10px">
+                                    <!-- Yetenek -->
+                                    @foreach (var skill in job.Skills)
+                                    {
+                                        <li style="border-radius:10px">
+                                            <strong><a href="/job?slug=@skill.Slug" style="color: black">@skill.Name</a></strong>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <!-- İş yeteneği sonu -->
+                            <div class="details" style="margin-left:20px; width:600px;">
+                                <div class="title d-flex flex-row justify-content-between">
+                                    <div class="titles">
+                                        <a href="/job/@job.Slug"><h4>@job.Name</h4></a>
+                                        <h5 style="color: gray"><span class="lnr lnr-hourglass"></span> @GetTimeAgo(job.CreateDate)</h5>
+                                        <h5><strong>İşveren: <a href="/company/@job.AppUser.Slug">@job.AppUser.FullName</a></strong></h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <p>@Html.Raw(job.Introduce)</p>
+                                <hr />
+                                <div style="display:flex; justify-content: space-between;">
+                                    <div>
+                                        <h5><strong>İş Türü: @job.Time.Name</strong></h5>
+                                        <h5 style="color: blue"><span class="lnr lnr-book"></span> <strong>@job.Title.Name</strong></h5>
+                                        <h5 style="color: green"><strong>₺ @job.MinSalary - @job.MaxSalary TL</strong></h5>
+                                    </div>
+                                    <div style="text-align:right; margin-top: 40px">
+                                        <ul class="btns">
+                                            <li style="border-radius:10px"><a href="/job/@job.Slug">Şimdi Başvur</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center" style="margin-top: 50px;">
+                        <img src="~/images/default/oops.png" alt="oops" width="600" height="400" style="margin-bottom: 10px; border-radius:10px">
+                        <h4>Üzgünüz! Şu anda uygun iş bulunmamaktadır.</h4>
+                    </div>
+                }
+                <!-- İş listesi sonu -->
+                <!-- Sayfa listesi -->
+                <div class="text-center">
+                    <ul class="pagination">
+                        @{
+                            string slug = null;
+                            if (ViewBag.Time != null)
+                            {
+                                slug = ViewBag.Time.Slug;
+                            }
+                            else if (ViewBag.Skill != null)
+                            {
+                                slug = ViewBag.Skill.Slug;
+                            }
+                            else if (ViewBag.Province != null)
+                            {
+                                slug = ViewBag.Province.Slug;
+                            }
+                            else if (ViewBag.Employer != null)
+                            {
+                                slug = ViewBag.Employer.Slug;
+                            }
+                        }
+                        @Html.PagedListPager((IPagedList)Model,
+                        page => Url.Action("Index", new { slug, page }),
+                        new PagedListRenderOptions
+                        {
+                        Display = PagedListDisplayMode.IfNeeded,
+                        LiElementClasses = new string[] { "page-item" },
+                        UlElementClasses = new string[] { "pagination" },
+                        PageClasses = new string[] { "page-link" },
+                        MaximumPageNumbersToDisplay = 5, // Maximum number of pages displayed
+                        LinkToPreviousPageFormat = "<span aria-hidden=\"true\">&lsaquo;</span>",
+                        LinkToNextPageFormat = "<span aria-hidden=\"true\">&rsaquo;</span>",
+                        LinkToFirstPageFormat = "<span aria-hidden=\"true\">&lsaquo;&lsaquo;</span>",
+                        LinkToLastPageFormat = "<span aria-hidden=\"true\">&rsaquo;&rsaquo;</span>"
+                        })
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Yan Çubuk -->
+            @Html.Partial("../Shared/_SidebarPartial.cshtml")
+
+        </div>
+    </div>
+</section>
+<!-- İşlem Alanı sonu -->
+<!-- Başlangıç Çağrı Alanı -->
+<section class="callto-action-area section-gap">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content col-lg-9">
+                <div class="title text-center">
+                    <h1 class="mb-10 text-white">Bugün Çekinmeden Bize Katılın!</h1>
+                    <p class="text-white">
+                        Kariyer Rotası, iş arama sürecinizi kolaylaştırmak ve kariyerinizde yeni rotalar keşfetmeniz için ideal bir platformdur. İşte size sunduğumuz avantajlar:
+                    </p>
+                    <ul class="text-white">
+                        <li>Geniş İş İlanları Ağı: Binlerce iş ilanı arasından size en uygun olanı bulun.</li>
+                        <li>Doğrudan İletişim: Potansiyel işverenlerle doğrudan iletişim kurma fırsatı yakalayın.</li>
+                        <li>Gelişmiş Arama Filtreleri: İhtiyaçlarınıza uygun işleri hızlıca bulun.</li>
+                        <li>Başvuruları Yönetin: Başvurularınızı kolayca yönetin ve takip edin.</li>
+                        <li>Şirketinizi Tanıtın: Şirketinizin marka değerini artırın ve itibarınızı güçlendirin.</li>
+                    </ul>
+                    <p class="text-white">
+                        Kariyer Rotası'na katılarak kariyerinizi şekillendirin ve geleceğinize doğru emin adımlarla ilerleyin!
+                    </p>
+                    <a class="primary-btn" href="#">Hemen Ücretsiz Üye Ol</a>
+                    <a class="primary-btn" href="#">Şirket Hesabı Edin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- End calto-action Area -->
+
+@functions {
+    public string GetTimeAgo(DateTime? createDate)
+    {
+        DateTime actualCreateDate = createDate.Value;
+        TimeSpan timeAgo = DateTime.Now - actualCreateDate;
+
+        if (timeAgo.TotalMinutes < 60)
+        {
+            return $"{Math.Max(1, (int)timeAgo.TotalMinutes)} dakika önce yayınlandı";
+        }
+        else if (timeAgo.TotalHours < 24)
+        {
+            return $"{Math.Max(1, (int)timeAgo.TotalHours)} saat önce yayınlandı";
+        }
+        else
+        {
+            return $"{Math.Max(1, (int)timeAgo.TotalDays)} gün önce yayınlandı";
+        }
+    }
+
+}

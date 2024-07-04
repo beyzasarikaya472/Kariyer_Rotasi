@@ -1,0 +1,74 @@
+﻿@model JobPortal.Data.ViewModel.RegisterViewModel
+
+@{
+    Layout = "_LayoutAccount";
+}
+
+<!-- /Logo -->
+<h4 class="mb-2">Macera burada başlar 🚀</h4>
+<p class="mb-4">Uygulama yönetimini kolay ve eğlenceli hale getirin!</p>
+
+<form id="registerForm" class="mb-3" action="#" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="Email" type="text" class="form-control" autocomplete="username" aria-required="true" placeholder="E-posta adresinizi girin" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-password-toggle">
+        <label asp-for="Password" class="form-label"></label><span class="text-danger">*</span>
+        <div class="input-group input-group-merge">
+            <input asp-for="Password"
+                   type="password"
+                   class="form-control"
+                   autocomplete="new-password"
+                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                   aria-required="true" />
+            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+        </div>
+    </div>
+    <div class="mb-3 form-password-toggle">
+        <label asp-for="ConfirmPassword" class="form-label"></label><span class="text-danger">*</span>
+        <div class="input-group input-group-merge">
+            <input asp-for="ConfirmPassword"
+                   type="password"
+                   class="form-control"
+                   autocomplete="new-password"
+                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                   aria-required="true" />
+            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="FullName" type="text" class="form-control" autocomplete="" aria-required="true" placeholder="Adınızı girin" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="Age" type="text" class="form-control" autocomplete="" aria-required="true" placeholder="Yaşınızı girin" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="Phone" type="text" class="form-control" autocomplete="" aria-required="true" placeholder="Telefon numaranızı girin" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label><span class="text-danger">*</span>
+        <input asp-for="Address" type="text" class="form-control" autocomplete="" aria-required="true" placeholder="Adresinizi girin" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <button id="registerSubmit" type="submit" class="btn btn-primary d-grid w-100">Kayıt Ol</button>
+</form>
+
+<p class="text-center">
+    <span>Zaten bir hesabınız var mı?</span>
+    <a href="/login">
+        <span>Oturum açın</span>
+    </a>
+</p>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
